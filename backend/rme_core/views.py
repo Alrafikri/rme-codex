@@ -4,4 +4,4 @@ from rest_framework.response import Response
 
 @api_view(["GET"])
 def healthz(request):
-    return Response({"ok": True})
+    return Response({"status": "ok"})
