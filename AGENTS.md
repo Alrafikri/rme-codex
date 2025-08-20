@@ -356,4 +356,47 @@ python manage.py spectacular --file schema.yaml
 9. `feat(satusehat-stub):` OAuth2 client + upsert services + tests.
 10. `chore:polish`: metrics, docs, seeds.
 
-> Always keep the app runnable after each PR and update this file when expectations change.
+---
+
+## 18) Agent Self‑Tests for **Measure** & **Acceptance**
+
+> Codex must **implement** and **run** the checks below for each step. Use the exact file paths and Make targets so CI can gate merges.
+
+### Global Conventions
+- **Back‑end tests** live in `backend/apps/**/tests/` using `pytest` + DRF `APIClient`.
+- **E2E tests** live in `frontend/tests/e2e/` using **Playwright**.
+- **Smoke scripts** live in `scripts/smoke/*.sh` (curl‑based), runnable locally and in CI.
+- **Make targets** expose one‑liners; CI calls these. Examples:
+  ```bash
+  make test            # all unit/integration tests
+  make test:patients   # scoped to patients module
+  make e2e             # all Playwright tests (headed in CI via xvfb)
+  make e2e:patients
+  make smoke:patients
+  ```
+
+### Reusable Test Template (per step)
+For each Execution Plan step `N`, add a folder `docs/checklists/step-N/` that contains:
+- `MEASURE.md`: bullets of measurable outcomes
+- `ACCEPTANCE.md`: user‑observable acceptance checklist
+- Link to corresponding tests and scripts
+
+**Pytest structure template**
+```python
+# backend/apps/<module>/tests/test_stepN_measure.py
+# backend/apps/<module>/tests/test_stepN_acceptance.py
+```
+**Playwright structure template**
+```ts
+// frontend/tests/e2e/stepN_<module>.spec.ts
+```
+**Smoke script**
+```bash
+# scripts/smoke/stepN_<module>.sh
+```
+
+---
+
+### Agent Instruction (one‑liner to embed per step)
+> - Always keep the app runnable and error-free after each PR and update this file when expectations change.
+> - “After implementing Step **N**, create **pytest**, **Playwright**, and **smoke** checks matching the **Measure** and **Acceptance** bullets, expose them via `make test:<module>`, `make e2e:<module>`, `make smoke:<module>`, and **run them in CI**. Treat failures as blockers.”
