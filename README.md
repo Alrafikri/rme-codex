@@ -28,6 +28,39 @@ Expected response:
 {"status": "ok"}
 ```
 
+## Usage
+
+### Seed demo tenants and users
+
+```bash
+cd backend
+python manage.py migrate  # first time
+python manage.py seed_demo
+```
+
+Creates:
+
+- Tenant `system` with user `superadmin` / `password`
+- Tenant `clinic` with user `clinicadmin` / `password`
+
+### Obtain JWT tokens
+
+```bash
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "X-Tenant-ID: <tenant_uuid>" \
+  -d '{"username": "clinicadmin", "password": "password"}' \
+  http://localhost:8000/api/auth/login/
+```
+
+### Authenticated request
+
+```bash
+curl -H "Authorization: Bearer <access_token>" \
+  -H "X-Tenant-ID: <tenant_uuid>" \
+  http://localhost:8000/api/users/
+```
+
 ## Development without Docker
 
 ### Backend
@@ -49,3 +82,12 @@ npm run dev
 ```
 
 OpenAPI schema is available at `/api/schema/` and interactive docs at `/api/docs/`.
+
+### Update OpenAPI schema
+
+```bash
+cd backend
+python manage.py spectacular --file schema.yaml
+```
+
+> When adding API views, include a `serializer_class` (or use `GenericAPIView`) so schema generation succeeds.
