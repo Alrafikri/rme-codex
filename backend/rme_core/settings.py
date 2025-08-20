@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     "apps.tenants",
     "apps.users",
     "apps.patients",
+    "apps.admissions",
+    "apps.queue",
 ]
 
 MIDDLEWARE = [

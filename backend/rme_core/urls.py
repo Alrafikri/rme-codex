@@ -24,12 +24,15 @@ from apps.users.views import UserViewSet
 from apps.patients.views import PatientViewSet
 from apps.users.auth import TenantTokenObtainPairView
 from rest_framework_simplejwt.views import TokenRefreshView
+from apps.admissions.views import CheckInView
+from apps.queue.views import QueueTicketViewSet
 
 from .views import HealthzView
 
 router = DefaultRouter()
 router.register(r"users", UserViewSet, basename="user")
 router.register(r"patients", PatientViewSet, basename="patient")
+router.register(r"queue", QueueTicketViewSet, basename="queue")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -37,6 +40,7 @@ urlpatterns = [
     path("api/auth/login/", TenantTokenObtainPairView.as_view(), name="login"),
     path("api/auth/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/", include(router.urls)),
+    path("api/admissions/checkin/", CheckInView.as_view(), name="checkin"),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "api/docs/",

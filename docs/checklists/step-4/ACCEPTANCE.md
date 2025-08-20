@@ -1,0 +1,2 @@
+- Staff can check in a patient and see them on the queue board
+- Pressing **Call Next** moves the next ticket into `IN_PROGRESS`
