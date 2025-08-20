@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "apps.tenants",
     "apps.users",
+    "apps.patients",
 ]
 
 MIDDLEWARE = [
