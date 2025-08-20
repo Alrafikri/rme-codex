@@ -70,6 +70,27 @@ curl -H "Authorization: Bearer <access_token>" \
   http://localhost:8000/api/patients/
 ```
 
+### Check-in and queue
+
+```bash
+curl -H "Authorization: Bearer <token>" \\
+  -H "X-Tenant-ID: <tenant_uuid>" \\
+  -d '{"patient_id":"<patient_uuid>"}' \\
+  http://localhost:8000/api/admissions/checkin/
+```
+
+Fetch queue and call next:
+
+```bash
+curl -H "Authorization: Bearer <token>" \\
+  -H "X-Tenant-ID: <tenant_uuid>" \\
+  http://localhost:8000/api/queue/
+
+curl -X POST -H "Authorization: Bearer <token>" \\
+  -H "X-Tenant-ID: <tenant_uuid>" \\
+  http://localhost:8000/api/queue/next/
+```
+
 List, search, and paginate:
 
 ```bash

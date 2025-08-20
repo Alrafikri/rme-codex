@@ -4,6 +4,32 @@ info:
   version: 0.1.0
   description: API documentation for RME backend
 paths:
+  /api/admissions/checkin/:
+    post:
+      operationId: admissions_checkin_create
+      tags:
+      - admissions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckIn'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CheckIn'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CheckIn'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckIn'
+          description: ''
   /api/auth/login/:
     post:
       operationId: auth_login_create
@@ -229,6 +255,109 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/queue/:
+    get:
+      operationId: queue_list
+      tags:
+      - queue
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QueueTicket'
+          description: ''
+  /api/queue/{id}/done/:
+    post:
+      operationId: queue_done_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - queue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueueTicket'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/QueueTicket'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/QueueTicket'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueueTicket'
+          description: ''
+  /api/queue/{id}/skip/:
+    post:
+      operationId: queue_skip_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - queue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueueTicket'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/QueueTicket'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/QueueTicket'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueueTicket'
+          description: ''
+  /api/queue/next/:
+    post:
+      operationId: queue_next_create
+      tags:
+      - queue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueueTicket'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/QueueTicket'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/QueueTicket'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueueTicket'
+          description: ''
   /api/schema/:
     get:
       operationId: schema_retrieve
@@ -414,6 +543,14 @@ paths:
           description: ''
 components:
   schemas:
+    CheckIn:
+      type: object
+      properties:
+        patient_id:
+          type: string
+          format: uuid
+      required:
+      - patient_id
     Health:
       type: object
       properties:
@@ -495,6 +632,28 @@ components:
       - full_name
       - id
       - mrn
+    QueueTicket:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        number:
+          type: integer
+          readOnly: true
+        state:
+          allOf:
+          - $ref: '#/components/schemas/StateEnum'
+          readOnly: true
+        patient_name:
+          type: string
+          readOnly: true
+      required:
+      - id
+      - number
+      - patient_name
+      - state
     RoleEnum:
       enum:
       - SUPERADMIN
@@ -511,6 +670,18 @@ components:
         * `NURSE` - Nurse
         * `STAFF` - Staff
         * `CASHIER` - Cashier
+    StateEnum:
+      enum:
+      - WAITING
+      - IN_PROGRESS
+      - DONE
+      - SKIPPED
+      type: string
+      description: |-
+        * `WAITING` - WAITING
+        * `IN_PROGRESS` - IN_PROGRESS
+        * `DONE` - DONE
+        * `SKIPPED` - SKIPPED
     TenantTokenObtainPair:
       type: object
       properties:

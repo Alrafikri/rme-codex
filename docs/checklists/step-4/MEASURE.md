@@ -1,0 +1,2 @@
+- Check-in endpoint creates a visit and queue ticket
+- Calling `/api/queue/next/` sets the earliest waiting ticket to `IN_PROGRESS`
