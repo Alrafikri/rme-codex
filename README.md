@@ -1,8 +1,36 @@
 # rme-codex
 
-This repository houses the monorepo for the Rekam Medis Elektronik (RME) project.
+Monorepo for the Rekam Medis Elektronik (RME) project.
 
-## Backend quickstart
+## Getting Started
+
+### 1. Run with Docker Compose
+
+Environment defaults are provided in `backend/.env.example` and `frontend/.env.example`.
+
+```bash
+docker compose -f infra/docker-compose.yml up --build
+```
+
+Backend API: <http://localhost:8000>
+
+Frontend app: <http://localhost:3000>
+
+### 2. Health check
+
+```bash
+curl http://localhost:8000/api/healthz
+```
+
+Expected response:
+
+```json
+{"status": "ok"}
+```
+
+## Development without Docker
+
+### Backend
 
 ```bash
 cd backend
@@ -12,18 +40,12 @@ pip install -r requirements.txt
 python manage.py runserver
 ```
 
-### Health check
-
-After the server is running, verify it with:
+### Frontend
 
 ```bash
-curl http://localhost:8000/api/healthz
+cd frontend
+npm install
+npm run dev
 ```
 
-The endpoint returns:
-
-```json
-{"ok": true}
-```
-
-The API schema is available at `/api/schema/` and interactive docs at `/api/docs/`.
+OpenAPI schema is available at `/api/schema/` and interactive docs at `/api/docs/`.

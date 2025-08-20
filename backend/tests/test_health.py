@@ -5,4 +5,4 @@ class HealthCheckTests(TestCase):
     def test_health_endpoint_returns_ok(self):
         response = self.client.get("/api/healthz")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), {"ok": True})
+        self.assertEqual(response.json(), {"status": "ok"})
