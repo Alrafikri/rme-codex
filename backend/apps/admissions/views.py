@@ -29,9 +29,7 @@ class CheckInView(APIView):
             id=serializer.validated_data["patient_id"], tenant=request.tenant
         )
         visit = Visit.objects.create(tenant=request.tenant, patient=patient)
-        number = (
-            QueueTicket.objects.filter(tenant=request.tenant).count() + 1
-        )
+        number = QueueTicket.objects.filter(tenant=request.tenant).count() + 1
         ticket = QueueTicket.objects.create(
             tenant=request.tenant, visit=visit, number=number
         )

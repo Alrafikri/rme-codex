@@ -21,9 +21,11 @@ class QueueTicketViewSet(viewsets.ViewSet):
     ]
 
     def list(self, request):
-        qs = QueueTicket.objects.filter(tenant=request.tenant).exclude(
-            state=QueueTicket.State.DONE
-        ).order_by("created_at")
+        qs = (
+            QueueTicket.objects.filter(tenant=request.tenant)
+            .exclude(state=QueueTicket.State.DONE)
+            .order_by("created_at")
+        )
         return Response(QueueTicketSerializer(qs, many=True).data)
 
     @action(detail=False, methods=["post"])

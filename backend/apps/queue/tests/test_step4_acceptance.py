@@ -17,12 +17,8 @@ class QueueAcceptanceTests(APITestCase):
             HTTP_X_TENANT_ID=str(self.tenant.id),
         )
         self.token = resp.json()["access"]
-        self.p1 = Patient.objects.create(
-            tenant=self.tenant, full_name="A", mrn="1"
-        )
-        self.p2 = Patient.objects.create(
-            tenant=self.tenant, full_name="B", mrn="2"
-        )
+        self.p1 = Patient.objects.create(tenant=self.tenant, full_name="A", mrn="1")
+        self.p2 = Patient.objects.create(tenant=self.tenant, full_name="B", mrn="2")
         self.auth_headers = {
             "HTTP_AUTHORIZATION": f"Bearer {self.token}",
             "HTTP_X_TENANT_ID": str(self.tenant.id),
