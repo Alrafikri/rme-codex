@@ -61,6 +61,23 @@ curl -H "Authorization: Bearer <access_token>" \
   http://localhost:8000/api/users/
 ```
 
+### Manage patients
+
+```bash
+curl -H "Authorization: Bearer <access_token>" \
+  -H "X-Tenant-ID: <tenant_uuid>" \
+  -d '{"full_name":"John","mrn":"001"}' \
+  http://localhost:8000/api/patients/
+```
+
+List, search, and paginate:
+
+```bash
+curl -H "Authorization: Bearer <token>" \
+  -H "X-Tenant-ID: <tenant_uuid>" \
+  'http://localhost:8000/api/patients/?search=john&page=1'
+```
+
 ## Development without Docker
 
 ### Backend

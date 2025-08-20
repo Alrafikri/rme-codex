@@ -21,6 +21,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.routers import DefaultRouter
 
 from apps.users.views import UserViewSet
+from apps.patients.views import PatientViewSet
 from apps.users.auth import TenantTokenObtainPairView
 from rest_framework_simplejwt.views import TokenRefreshView
 
@@ -28,6 +29,7 @@ from .views import HealthzView
 
 router = DefaultRouter()
 router.register(r"users", UserViewSet, basename="user")
+router.register(r"patients", PatientViewSet, basename="patient")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
